@@ -73,7 +73,7 @@ class CommissionManager
      *
      * @return float
      */
-    private function getCommissionAmount(string $amount, string $currency, float $rate): float
+    public function getCommissionAmount(string $amount, string $currency, float $rate): float
     {
         if ($currency === Currency::EUR || $rate == 0 ) {
             return $amount;
@@ -87,7 +87,7 @@ class CommissionManager
      *
      * @return float
      */
-    private function getMultiplier(string $countryCode): float
+    public function getMultiplier(string $countryCode): float
     {
         if ($this->countryManager->isEuCountry($countryCode)) {
             return 0.01;
