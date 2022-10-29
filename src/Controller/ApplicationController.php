@@ -1,13 +1,23 @@
 <?php
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpClient\Response;
+declare(strict_types=1);
 
-class ApplicationController
+namespace App\Controller;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\CommissionManager;
+
+class ApplicationController extends AbstractController
 {
-    #[Route('/app/index')]
-    public function index(): Response
+    #[Route('/application/index')]
+    public function index(CommissionManager $commissionManager): Response
     {
-        var_dump('test-test'); exit();
+        $commissions = $commissionManager->getCommissions();
+
+        return $this->render('app/index.html.twig', [
+            'commissions' => $commissions
+        ]);
     }
 }
