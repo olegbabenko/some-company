@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+    php:
+        build: php-fpm
+        container_name: some_company_php
+        ports:
+            - '9002:9000'
+        volumes:
+            - ../:/var/www/html
+        networks:
+            some_company_net:
+                ipv4_address: 172.142.0.5
+
+    nginx:
+        build: nginx
+        container_name: some_company_nginx
+        ports:
+            - '80:80'
+        links:
+            - php
+        volumes:
+            - ../var/log/nginx/:/var/log/nginx:cached
+        networks:
+            some_company_net:
+                ipv4_address: 172.142.0.10
+
+networks:
+    some_company_net:
+        name: someCompanyNet
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.142.0.0/16
